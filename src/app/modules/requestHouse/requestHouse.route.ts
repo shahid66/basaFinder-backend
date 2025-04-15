@@ -10,6 +10,11 @@ router.post(
   auth(USER_ROLE.tenant, USER_ROLE.admin),
   RequestHouseControllers.createRequest,
 );
+router.get(
+  '/requestsByUser',
+  auth(USER_ROLE.tenant, USER_ROLE.admin, USER_ROLE.landlord),
+  RequestHouseControllers.getRequestByUser,
+);
 
 router.get(
   '/requests/:id',
@@ -30,7 +35,7 @@ router.get(
 //For Admin
 router.get(
   '/requests',
-  auth(USER_ROLE.tenant, USER_ROLE.admin),
+  auth(USER_ROLE.tenant, USER_ROLE.admin, USER_ROLE.landlord),
   RequestHouseControllers.getRequest,
 );
 

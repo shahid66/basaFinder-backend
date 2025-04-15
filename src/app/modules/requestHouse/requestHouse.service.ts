@@ -27,6 +27,12 @@ const getRentRequest = async () => {
     .populate('rentalHouse', 'location images');
   return rentRequest;
 };
+const getRentRequestByUser = async (id: string) => {
+  const rentRequest = await RequestRentModel.findById(id)
+    .populate('user', 'name email')
+    .populate('rentalHouse', 'location images');
+  return rentRequest;
+};
 const getSingleRentRequest = async (user: string) => {
   const rentRequest = await RequestRentModel.findById(user);
   return rentRequest;
@@ -78,7 +84,7 @@ const paymentRentRequest = async (reqId: string, client_ip: string) => {
     );
     console.log(order, 'order');
   }
- 
+
   return payment.checkout_url;
 };
 
@@ -118,4 +124,5 @@ export const RentRequestServices = {
   getSingleRentRequest,
   paymentRentRequest,
   verifyPayment,
+  getRentRequestByUser,
 };

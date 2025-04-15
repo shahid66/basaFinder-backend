@@ -26,6 +26,17 @@ const getRequest = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getRequestByUser = catchAsync(async (req, res) => {
+  const { id } = req.user;
+  const result = await RentRequestServices.getRentRequestByUser(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get all Request ',
+    data: result,
+  });
+});
 const getSingleRequest = catchAsync(async (req, res) => {
   const { id } = req.params;
 
@@ -67,6 +78,7 @@ export const RequestHouseControllers = {
   getRequest,
   getSingleRequest,
   paymentRequest,
+  getRequestByUser,
   // createOrder,
   // getOrders,
   verifyPayment,

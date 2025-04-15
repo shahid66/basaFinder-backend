@@ -10,11 +10,6 @@ router.post(
   auth(USER_ROLE.tenant, USER_ROLE.admin),
   RequestHouseControllers.createRequest,
 );
-router.get(
-  '/requestsByUser',
-  auth(USER_ROLE.tenant, USER_ROLE.admin, USER_ROLE.landlord),
-  RequestHouseControllers.getRequestByUser,
-);
 
 router.get(
   '/requests/:id',
@@ -37,6 +32,12 @@ router.get(
   '/requests',
   auth(USER_ROLE.tenant, USER_ROLE.admin, USER_ROLE.landlord),
   RequestHouseControllers.getRequest,
+);
+
+router.get(
+  '/requests-ByUser',
+  auth(USER_ROLE.tenant, USER_ROLE.admin, USER_ROLE.landlord),
+  RequestHouseControllers.getRequestByUser,
 );
 
 export const RequestHouseRoutes = router;

@@ -10,6 +10,11 @@ router.get(
 
   AdminControllers.getAllUser,
 );
+router.get(
+  '/total-users',
+
+  AdminControllers.userCount,
+);
 
 router.put(
   '/users/:id',

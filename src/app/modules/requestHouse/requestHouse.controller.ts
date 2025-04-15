@@ -51,6 +51,17 @@ const paymentRequest = catchAsync(async (req, res) => {
   });
 });
 
+const verifyPayment = catchAsync(async (req, res) => {
+  const order = await RentRequestServices.verifyPayment(req.query.order_id as string);
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Order verified successfully',
+    data: order,
+  });
+});
+
 export const RequestHouseControllers = {
   createRequest,
   getRequest,
@@ -58,7 +69,7 @@ export const RequestHouseControllers = {
   paymentRequest,
   // createOrder,
   // getOrders,
-  // verifyPayment,
+  verifyPayment,
   // deleteOrder,
   // getUserOrder,
   // updateOrdersStatus,

@@ -16,7 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: 'https://basfinder-frontend.vercel.app',
+    // origin: 'https://basfinder-frontend.vercel.app',
+    origin: 'http://localhost:3000',
 
     credentials: true,
   }),

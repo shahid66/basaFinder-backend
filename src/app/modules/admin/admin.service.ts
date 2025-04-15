@@ -100,6 +100,39 @@ const deleteRentalHousePostFromDB = async (id: string) => {
   return result;
 };
 
+const getUserCount= async () => {
+  const result = await User.aggregate([
+    {
+      $match: {
+        role: { $in: ['tenant', 'landlord'] },
+        createdAt: { $exists: true }
+      }
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$createdAt" },
+          month: { $month: "$createdAt" },
+          role: "$role"
+        },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: { "_id.year": 1, "_id.month": 1 }
+    },
+    {
+      $project: {
+        _id: 0,
+        year: "$_id.year",
+        month: "$_id.month",
+        role: "$_id.role",
+        count: 1
+      }
+    }
+  ]);
+  return result;
+}
 export const AdminServices = {
   updateUserIntoDB,
   getRentalHousePostPublicFromDB,
@@ -108,4 +141,5 @@ export const AdminServices = {
   changeStatus,
   deleteUserFromDB,
   getAllUserIntoDB,
+  getUserCount
 };

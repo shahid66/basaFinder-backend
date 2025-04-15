@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { RequestRentModel } from '../requestHouse/requestHouse.model';
 import { IRentalHousePost } from './rentalHouse.interface';
@@ -77,6 +78,40 @@ const getSingleRentRequest = async (user: string, requestId: string) => {
   const rentRequest = await RequestRentModel.findOne({ user, requestId });
   return rentRequest;
 };
+const getRentRequestCount = async (landlord: string) => {
+  const result = await RequestRentModel.aggregate([
+    {
+      $match: {
+        landlord: new mongoose.Types.ObjectId(landlord),
+      }
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$createdAt" },
+          month: { $month: "$createdAt" },
+        },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: {
+        "_id.year": 1,
+        "_id.month": 1
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        year: "$_id.year",
+        month: "$_id.month",
+        count: 1
+      }
+    }
+  ]);
+  return result;
+};
+
 const updateSingleRentRequest = async (
   user: string,
   requestId: string,
@@ -101,7 +136,7 @@ export const ListingsServices = {
   getRentalHousePostPublicFromDB,
 
   getAllRentRequestByID,
-
+  getRentRequestCount,
   getSingleRentRequest,
   updateSingleRentRequest,
 };

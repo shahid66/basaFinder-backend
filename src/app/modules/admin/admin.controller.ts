@@ -76,6 +76,17 @@ const deleteRentalHousePost = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const userCount = catchAsync(async (req, res) => {
+  
+  const result = await AdminServices.getUserCount();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Total user count successfully',
+    data: result,
+  });
+});
 
 export const AdminControllers = {
   changeStatus,
@@ -84,4 +95,5 @@ export const AdminControllers = {
   getAllRentalHousePost,
   updateRentalHousePost,
   deleteRentalHousePost,
+  userCount
 };

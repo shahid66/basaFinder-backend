@@ -18,6 +18,11 @@ router.get(
   auth(USER_ROLE.landlord),
   RentalHousePostControllers.getAllRentalHousePost,
 );
+router.get(
+  '/listings/count',
+  auth(USER_ROLE.landlord),
+  RentalHousePostControllers.getAllRequestCount,
+);
 router.get('/', RentalHousePostControllers.getAllRentalHousePostPublic);
 
 router.get(

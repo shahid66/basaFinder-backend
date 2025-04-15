@@ -45,11 +45,11 @@ type ShurjopayPayload = {
 };
 
 const paymentRentRequest = async (reqId: string, client_ip: string) => {
+  console.log(reqId, 'reqId');
   const rentRequest = await RequestRentModel.findById(reqId)
     .populate('user')
     .populate('rentalHouse', 'rent_amount');
 
-  
   // payment integration
   const shurjopayPayload: ShurjopayPayload = {
     amount: rentRequest?.rentalHouse?.rent_amount,
@@ -66,16 +66,50 @@ const paymentRentRequest = async (reqId: string, client_ip: string) => {
   const payment = await requestUtils.makePaymentAsync(shurjopayPayload);
 
   if (payment?.transactionStatus) {
-   const order = await RequestRentModel.updateOne({
-      transaction: {
-        id: payment.sp_order_id,
-        transactionStatus: payment.transactionStatus,
+    console.log('dhukse');
+    const order = await RequestRentModel.findByIdAndUpdate(
+      { _id: payment.customer_order_id },
+      {
+        transaction: {
+          id: payment.sp_order_id,
+          transactionStatus: payment.transactionStatus,
+        },
       },
-    });
+    );
+    console.log(order, 'order');
   }
-  return payment.checkout_url;
-
  
+  return payment.checkout_url;
+};
+
+const verifyPayment = async (order_id: string) => {
+  const verifiedPayment = await requestUtils.verifyPaymentAsync(order_id);
+  console.log(order_id, 'verifiedPayment');
+  if (verifiedPayment.length) {
+    await RequestRentModel.findOneAndUpdate(
+      {
+        'transaction.id': order_id,
+      },
+      {
+        'transaction.bank_status': verifiedPayment[0].bank_status,
+        'transaction.sp_code': verifiedPayment[0].sp_code,
+        'transaction.sp_message': verifiedPayment[0].sp_message,
+        'transaction.transactionStatus': verifiedPayment[0].transaction_status,
+        'transaction.method': verifiedPayment[0].method,
+        'transaction.date_time': verifiedPayment[0].date_time,
+        paymentStatus:
+          verifiedPayment[0].bank_status == 'Success'
+            ? 'Paid'
+            : verifiedPayment[0].bank_status == 'Failed'
+              ? 'Pending'
+              : verifiedPayment[0].bank_status == 'Cancel'
+                ? 'Cancelled'
+                : '',
+      },
+    );
+  }
+
+  return verifiedPayment;
 };
 
 export const RentRequestServices = {
@@ -83,4 +117,5 @@ export const RentRequestServices = {
   getRentRequest,
   getSingleRentRequest,
   paymentRentRequest,
+  verifyPayment,
 };

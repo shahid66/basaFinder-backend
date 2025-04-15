@@ -48,7 +48,6 @@ const updateRentalHousePost = catchAsync(async (req, res) => {
   const result = await ListingsServices.updateRentalHousePostIntoDB(
     postId,
     req.body,
-    
   );
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -108,6 +107,18 @@ const getAllRequest = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getAllRequestCount = catchAsync(async (req, res) => {
+  const { id } = req.user;
+
+  const result = await ListingsServices.getRentRequestCount(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get All Request Count ',
+    data: result,
+  });
+});
 
 const updateSingleRequestByLandlord = catchAsync(async (req, res) => {
   const { requestId } = req.params;
@@ -139,4 +150,5 @@ export const RentalHousePostControllers = {
   getSingleRequest,
   getAllRequest,
   updateSingleRequestByLandlord,
+  getAllRequestCount,
 };

@@ -21,6 +21,11 @@ router.put(
 
   RequestHouseControllers.paymentRequest,
 );
+router.get(
+  '/verify',
+  auth(USER_ROLE.tenant, USER_ROLE.admin),
+  RequestHouseControllers.verifyPayment,
+);
 
 //For Admin
 router.get(

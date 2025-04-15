@@ -28,7 +28,8 @@ const getRentRequest = async () => {
   return rentRequest;
 };
 const getRentRequestByUser = async (id: string) => {
-  const rentRequest = await RequestRentModel.findById(id)
+  
+  const rentRequest = await RequestRentModel.find({ user: id })
     .populate('user', 'name email')
     .populate('rentalHouse', 'location images');
   return rentRequest;

@@ -28,7 +28,6 @@ const getRentRequest = async () => {
   return rentRequest;
 };
 const getRentRequestByUser = async (id: string) => {
-  
   const rentRequest = await RequestRentModel.find({ user: id })
     .populate('user', 'name email')
     .populate('rentalHouse', 'location images');
@@ -70,23 +69,33 @@ const paymentRentRequest = async (reqId: string, client_ip: string) => {
     client_ip,
   };
 
-  const payment = await requestUtils.makePaymentAsync(shurjopayPayload);
+  if (
+    rentRequest?.user?.address == null ||
+    rentRequest?.user?.address == undefined
+  ) {
+    return {
+      status: false,
+      message: 'You need to update your profile first',
+    };
+  } else {
+    const payment = await requestUtils.makePaymentAsync(shurjopayPayload);
 
-  if (payment?.transactionStatus) {
-    console.log('dhukse');
-    const order = await RequestRentModel.findByIdAndUpdate(
-      { _id: payment.customer_order_id },
-      {
-        transaction: {
-          id: payment.sp_order_id,
-          transactionStatus: payment.transactionStatus,
+    if (payment?.transactionStatus) {
+      console.log('dhukse');
+      const order = await RequestRentModel.findByIdAndUpdate(
+        { _id: payment.customer_order_id },
+        {
+          transaction: {
+            id: payment.sp_order_id,
+            transactionStatus: payment.transactionStatus,
+          },
         },
-      },
-    );
-    console.log(order, 'order');
-  }
+      );
+      console.log(order, 'order');
+    }
 
-  return payment.checkout_url;
+    return payment.checkout_url;
+  }
 };
 
 const verifyPayment = async (order_id: string) => {

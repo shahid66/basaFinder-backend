@@ -57,13 +57,15 @@ const paymentRequest = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
-    message: 'Get Single Request ',
+    message: 'Payment ',
     data: result,
   });
 });
 
 const verifyPayment = catchAsync(async (req, res) => {
-  const order = await RentRequestServices.verifyPayment(req.query.order_id as string);
+  const order = await RentRequestServices.verifyPayment(
+    req.query.order_id as string,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.CREATED,

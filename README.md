@@ -53,7 +53,7 @@ Basha Finder is a rental platform backend that connects **tenants** with **landl
 
 
 
----
+
 
 ## 🔑 Authentication
 
@@ -106,26 +106,25 @@ Basha Finder is a rental platform backend that connects **tenants** with **landl
 - Rent range filtering
 - Bedroom count filter
 
-Example:
 
 
 
+## ⚙️ Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone  https://github.com/shahid66/basaFinder-backend.git
+cd bashaFinder-backend
 
 # Setup and Installation
 
-## Clone the Repository
 
-```bash
-git clone https://github.com/username/bike-store-api.git
-cd bike-store-api
-
-```
 
 ## Install Dependencies
 
 ```bash
-git clone https://github.com/username/bike-store-api.git
-cd bike-store-api
+npm install
 
 ```
 
@@ -136,7 +135,7 @@ Add a `.env` file in the root directory with the following content:
 ```bash
 
 PORT=5000
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/bike-store
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/bashaFinder
 
 ```
 

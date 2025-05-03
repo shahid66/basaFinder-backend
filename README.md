@@ -117,16 +117,13 @@ Basha Finder is a rental platform backend that connects **tenants** with **landl
 git clone  https://github.com/shahid66/basaFinder-backend.git
 cd bashaFinder-backend
 
-# Setup and Installation
-
-
 
 ## Install Dependencies
 
-```bash
+
 npm install
 
-```
+
 
 ### Create a .env File
 
@@ -136,6 +133,26 @@ Add a `.env` file in the root directory with the following content:
 
 PORT=5000
 MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/bashaFinder
+
+
+BCRYPT_SALT_ROUNDS=
+
+  JWT_ACCESS_SECRET=""
+  JWT_REFRESH_SECRET=""
+  JWT_ACCESS_EXPIRES_IN=1d
+ JWT_REFRESH_EXPIRES_IN=7d
+NODE_ENV=""
+
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+
+SP_ENDPOINT=https://sandbox.shurjopayment.com
+SP_USERNAME=sp_sandbox
+SP_PASSWORD=pyyk97hu&6u6
+SP_PREFIX=SP
+SP_RETURN_URL=
 
 ```
 

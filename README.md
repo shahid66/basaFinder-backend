@@ -1,72 +1,115 @@
-# Bike Store API
+# 🏠 Basha Finder - Backend
 
-## Project Overview
-
-The **Bike Store API** is built using **Express.js** and **TypeScript**, integrated with **MongoDB** through **Mongoose** for data management. It provides RESTful endpoints to manage bikes (products) and orders while ensuring data integrity with schema validation. The API also features inventory management and robust error handling.
+Basha Finder is a rental platform backend that connects **tenants** with **landlords**. This backend handles user authentication, role-based access control, listing management, rental requests, and more.
 
 ---
 
-## Features
+## 🚀 Features
 
-### Bike Management
-
-- Add, view, update, and delete bikes.
-- Retrieve all bikes or filter by specific attributes like `category`, `name`, or `brand`.
-- Validate bike data using **Mongoose schema**.
-
-### Order Management
-
-- Place orders for bikes, automatically updating inventory and stock status.
-- Handle insufficient stock gracefully with error responses.
-- Calculate total revenue from orders using **MongoDB's aggregation pipeline**.
-
-### Error Handling
-
-- Global error handler for consistent error responses.
-- Custom error messages for validation errors and resource issues.
+- 🔐 JWT Authentication with role-based access (Admin, Landlord, Tenant)
+- 🏘️ CRUD operations for rental house listings
+- 📩 Rental request system between tenants and landlords
+- 🔍 Advanced filtering and search (location, rent, bedrooms)
+- 📧 Email notifications on rental request updates
+- 🛡️ Admin moderation for listings and user roles
+- 🔒 Passwords hashed with bcrypt
 
 ---
 
-## Endpoints
+## 🧱 Database Collections (MongoDB)
 
-### Bike Endpoints
+### 1. `Users` Collection
+| Field | Description |
+|-------|-------------|
+| name | User's full name |
+| email | Unique email address |
+| phone | Contact number |
+| password | Hashed password |
+| role | One of: `admin`, `landlord`, `tenant` |
+| ... | Additional profile info |
 
-#### 1. Create a Bike
+### 2. `Listings` Collection
+| Field | Description |
+|-------|-------------|
+| location | Rental house location |
+| description | Details of the house |
+| rent | Monthly rent |
+| bedrooms | Number of bedrooms |
+| images | Array of image URLs |
+| landlordId | Reference to the landlord user |
+| ... | Other metadata |
 
-**Endpoint**: `/api/products`  
-**Method**: `POST`
+### 3. `Requests` Collection
+| Field | Description |
+|-------|-------------|
+| listingId | Reference to the rental listing |
+| tenantId | Reference to the requesting user |
+| status | `pending`, `approved`, `rejected` |
+| message | Message from tenant (e.g. move-in date, duration, etc.) |
+| paymentStatus | For approved requests |
+| landlordPhone | Entered by landlord upon approval |
 
-#### 2. Get All Bikes
+---
 
-**Endpoint**: `/api/products`  
-**Method**: `GET`
 
-#### 3. Get a Specific Bike
 
-**Endpoint**: `/api/products/:productId`  
-**Method**: `GET`
+---
 
-#### 4. Update a Bike
+## 🔑 Authentication
 
-**Endpoint**: `/api/products/:productId`  
-**Method**: `PUT`
+- JWT used for session management.
+- bcrypt used for password hashing.
+- Role-based middleware for:
+  - `/admin` (Admin only)
+  - `/landlords` (Landlord only)
+  - `/tenants` (Tenant only)
 
-#### 5. Delete a Bike
+---
 
-**Endpoint**: `/api/products/:productId`  
-**Method**: `DELETE`
+## 📬 API Endpoints
 
-### Order Endpoints
+### 🔹 Tenant Routes
 
-#### 1. Create an Order
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | /tenants/requests       | Create a rental request |
+| GET    | /tenants/requests       | View tenant's rental requests |
+| PUT    | /tenants/profile        | Update tenant profile |
 
-**Endpoint**: `/api/orders`  
-**Method**: `POST`
+### 🔹 Landlord Routes
 
-#### 2. Calculate Revenue
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | /landlords/listings       | Create new rental listing |
+| GET    | /landlords/listings       | Get all listings by landlord |
+| PUT    | /landlords/listings/:id   | Update a listing |
+| DELETE | /landlords/listings/:id   | Delete a listing |
+| GET    | /landlords/requests       | View rental requests to their listings |
+| PUT    | /landlords/requests/:id   | Approve or reject a request and enter phone number on approval |
 
-**Endpoint**: `/api/orders/revenue`  
-**Method**: `GET`
+### 🔹 Admin Routes
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET    | /admin/users             | Get all users |
+| PUT    | /admin/users/:id         | Update user roles |
+| DELETE | /admin/users/:id         | Delete a user |
+| GET    | /admin/listings          | View all listings |
+| PUT    | /admin/listings/:id      | Moderate a listing |
+| DELETE | /admin/listings/:id      | Remove a listing |
+
+---
+
+## 🔍 Search & Filter
+
+- Location-based search
+- Rent range filtering
+- Bedroom count filter
+
+Example:
+
+
+
 
 # Setup and Installation
 

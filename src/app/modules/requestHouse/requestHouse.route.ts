@@ -16,6 +16,11 @@ router.get(
   auth(USER_ROLE.tenant, USER_ROLE.admin),
   RequestHouseControllers.getSingleRequest,
 );
+router.get(
+  '/requests/:id/:postId',
+
+  RequestHouseControllers.getRequestStatusByUser,
+);
 router.put(
   '/payment/:id',
 

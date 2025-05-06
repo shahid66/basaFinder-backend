@@ -37,6 +37,13 @@ const getSingleRentRequest = async (user: string) => {
   const rentRequest = await RequestRentModel.findById(user);
   return rentRequest;
 };
+const getRequestStatusByUser = async (user: string, postId: string) => {
+  const rentRequest = await RequestRentModel.findOne({
+    user: user,
+    rentalHouse: postId,
+  });
+  return rentRequest;
+};
 
 type ShurjopayPayload = {
   amount: number;
@@ -132,6 +139,7 @@ export const RentRequestServices = {
   createRentRequest,
   getRentRequest,
   getSingleRentRequest,
+  getRequestStatusByUser,
   paymentRentRequest,
   verifyPayment,
   getRentRequestByUser,

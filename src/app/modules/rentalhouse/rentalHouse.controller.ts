@@ -5,7 +5,6 @@ import { ListingsServices } from './rentalHouse.service';
 
 const createRentalHousePost = catchAsync(async (req, res) => {
   const { id } = req.user;
-  console.log(req.body);
 
   const result = await ListingsServices.createRentalHousePostIntoDB({
     user: id,

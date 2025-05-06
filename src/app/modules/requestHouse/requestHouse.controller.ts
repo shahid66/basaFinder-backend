@@ -49,6 +49,18 @@ const getSingleRequest = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getRequestStatusByUser = catchAsync(async (req, res) => {
+  const { id, postId } = req.params;
+
+  const result = await RentRequestServices.getRequestStatusByUser(id, postId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Get Single Request ',
+    data: result,
+  });
+});
 const paymentRequest = catchAsync(async (req, res) => {
   const { id } = req.params;
 
@@ -81,6 +93,7 @@ export const RequestHouseControllers = {
   getSingleRequest,
   paymentRequest,
   getRequestByUser,
+  getRequestStatusByUser,
   // createOrder,
   // getOrders,
   verifyPayment,

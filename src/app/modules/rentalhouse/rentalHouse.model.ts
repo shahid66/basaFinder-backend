@@ -8,6 +8,7 @@ const ListingsSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
+    name: { type: String, required: true },
     location: { type: String, required: true },
     details: { type: String, required: true },
     rent_amount: {
@@ -24,7 +25,6 @@ const ListingsSchema: Schema = new Schema(
       type: [{ type: String, required: true }],
       required: true,
     },
-
 
     category: {
       type: String,

@@ -1,4 +1,5 @@
 export type IRentalHousePost = {
+  name: string;
   location: string;
   details: string;
   rent_amount: number;
